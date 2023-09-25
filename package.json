@@ -1,0 +1,46 @@
+{
+  "name": "prism",
+  "version": "0.1.0",
+  "description": "Secure And Passwordless way to manage users",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rm -rf dist/ && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjashwin/prism.git"
+  },
+  "keywords": [
+    "secure",
+    "authentication",
+    "auth",
+    "passwordless",
+    "prisma",
+    "typescript",
+    "react"
+  ],
+  "author": "Ashwin Thinnappan",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/sjashwin/prism/issues"
+  },
+  "homepage": "https://github.com/sjashwin/prism#readme",
+  "devDependencies": {
+    "@types/node": "^20.6.5",
+    "@types/react": "^18.2.22",
+    "@types/react-dom": "^18.2.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
