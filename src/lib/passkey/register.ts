@@ -2,8 +2,7 @@
  * Author: Ashwin Thinnappan
  * Created: 2023 Oct 25
  */
-
-const RPID: string = "aslo38o9okdjw94i";
+import bcrypt from 'bcrypt';
 
 const publicKeyCredentialCreationOptions: PublicKeyCredentialCreationOptions = {
     challenge: Uint8Array.from(
@@ -25,24 +24,34 @@ const publicKeyCredentialCreationOptions: PublicKeyCredentialCreationOptions = {
     attestation: "direct" as const
 };
 
-export const Passkey = async (name: string, displayName: string, rpId?: string, challenge?: string) => {
-    if(name.length < 1 || displayName.length < 1) {
+export const Passkey = async (name: string, displayName: string, rpId?: string) => {
+    let credential: Credential | null = null;
+
+    if (name.length < 1 || displayName.length < 1) {
         console.log("Name or Display Name is empty");
         return null;
     }
-    publicKeyCredentialCreationOptions.rp.id = window.location.hostname || rpId;
-    publicKeyCredentialCreationOptions.user.id = Uint8Array.from(
-        (challenge || RPID), c => c.charCodeAt(0)
-        );
-    publicKeyCredentialCreationOptions.user.name = ""
-    let credential: Credential | null = null;
-    publicKeyCredentialCreationOptions.user.displayName = displayName;
-    publicKeyCredentialCreationOptions.user.name = name;
 
     try {
+        bcrypt.hash(new Date().toString().concat(name), 4, (err, hash) => {
+            if (err) {
+                console.error(err);
+                return null;
+            }
+            publicKeyCredentialCreationOptions.challenge = Uint8Array.from(hash, c => c.charCodeAt(0));
+            publicKeyCredentialCreationOptions.user.id = Uint8Array.from(hash, c => c.charCodeAt(0));
+        });
+
+        publicKeyCredentialCreationOptions.rp.id = location.hostname || rpId;
+        publicKeyCredentialCreationOptions.user.name = ""
+        
+        publicKeyCredentialCreationOptions.user.displayName = displayName;
+        publicKeyCredentialCreationOptions.user.name = name;
+
         credential = await navigator.credentials.create({
             publicKey: publicKeyCredentialCreationOptions
         });
+        
     } catch (error) {
         console.error(error);
     } finally {
