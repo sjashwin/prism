@@ -1,3 +1,8 @@
+/**
+ * Author: Ashwin Thinnappan
+ * Created: 2023 Oct 25
+ */
+
 const RPID: string = "aslo38o9okdjw94i";
 
 const publicKeyCredentialCreationOptions: PublicKeyCredentialCreationOptions = {

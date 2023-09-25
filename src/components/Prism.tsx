@@ -1,3 +1,8 @@
+/**
+ * Author: Ashwin Thinnappan
+ * Created: 2023 Oct 25
+ */
+
 import React from "react";
 import { Passkey } from "../lib/passkey/register";
 
